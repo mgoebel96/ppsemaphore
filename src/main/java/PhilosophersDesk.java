@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 public class PhilosophersDesk {
 
-    static Semaphore forks = new Semaphore(9);
+    static Semaphore forks = new Semaphore(4);
 
     public static void main(String[] args) {
         startProcess();
@@ -25,7 +25,7 @@ public class PhilosophersDesk {
         Philosopher schlegel  = new Philosopher("Schlegel ", fork5, fork1);
 
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-        Runnable task = () -> { System.out.println("Anzahl der Hände, die eine Gabel verlangen dürfen: " + PhilosophersDesk.forks.availablePermits()); };
+        Runnable task = () -> { System.out.println("Anzahl der Gabeln, die vergeben werden dürfen: " + PhilosophersDesk.forks.availablePermits()); };
 
         executor.scheduleAtFixedRate(task, 0, 2, TimeUnit.SECONDS);
 

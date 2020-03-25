@@ -21,7 +21,6 @@ public class Philosopher implements Runnable {
                 sleep((int) (random.nextDouble()*10000));
                 System.out.println(name + " hat Hunger.");      // Philosopher is hungry
                 PhilosophersDesk.forks.acquire();               // Makes a claim for two forks.
-                PhilosophersDesk.forks.acquire();
                 right.get();                                    // taking right
                 sleep((int) (random.nextDouble()*1000));          // turn left (critical moment)
                 left.get();                                     // taking left
@@ -32,7 +31,6 @@ public class Philosopher implements Runnable {
             }
             PhilosophersDesk.forks.release();                   // eating finished -> share the fork
             right.put();
-            PhilosophersDesk.forks.release();
             left.put();
         } while (true);
     }
