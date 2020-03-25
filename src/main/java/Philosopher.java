@@ -18,15 +18,15 @@ public class Philosopher implements Runnable {
         do {
             try {
                 System.out.println(name + " philosphiert.");    // Philosopher is thinking
-                sleep(random.nextLong() * 10000);
+                sleep((int) (random.nextDouble()*10000));
                 System.out.println(name + " hat Hunger.");      // Philosopher is hungry
                 PhilosophersDesk.forks.acquire();               // Makes a claim for two forks.
                 PhilosophersDesk.forks.acquire();
                 right.get();                                    // taking right
-                sleep(random.nextLong() * 1000);          // turn left (critical moment)
+                sleep((int) (random.nextDouble()*1000));          // turn left (critical moment)
                 left.get();                                     // taking left
                 System.out.println(name + " hat zwei Gabeln. Er kann essen.");
-                sleep(random.nextLong() * 1000);         // holding two forks -> can eat now
+                sleep((int) (random.nextDouble()*1000));         // holding two forks -> can eat now
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
