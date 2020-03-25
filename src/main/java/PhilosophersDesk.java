@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 public class PhilosophersDesk {
 
-    static Semaphore forks = new Semaphore(5);
+    static Semaphore forks = new Semaphore(4);
 
     public static void main(String[] args) {
         startProcess();
