@@ -12,11 +12,11 @@ public class PhilosophersDesk {
     }
 
     public static void startProcess(){
-        Fork fork1 = new Fork( 1);
-        Fork fork2 = new Fork(2);
-        Fork fork3 = new Fork(3);
-        Fork fork4 = new Fork( 4);
-        Fork fork5 = new Fork( 5);
+        Fork fork1 = new Fork();
+        Fork fork2 = new Fork();
+        Fork fork3 = new Fork();
+        Fork fork4 = new Fork();
+        Fork fork5 = new Fork();
 
         Philosopher platon = new Philosopher("Platon",fork1 ,fork2);
         Philosopher aristoteles = new Philosopher("Aristoteles", fork2, fork3);

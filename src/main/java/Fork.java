@@ -1,12 +1,6 @@
 class Fork {
 
     private boolean taken;
-    private int identity;
-
-    public Fork(int id)
-    {
-        identity=id;
-    }
 
     synchronized void put() {
         // Fork is placed back on the table. -> status: not taken

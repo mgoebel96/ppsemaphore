@@ -17,17 +17,17 @@ public class Philosopher implements Runnable {
     public void run() {
         do {
             try {
-                System.out.println(name + " philosphiert.");    // Philosopher is thinking
+                Logger.printOut (name + " philosphiert.");    // Philosopher is thinking
                 sleep((int) (random.nextDouble()*10000));
-                System.out.println(name + " hat Hunger.");      // Philosopher is hungry
+                Logger.printOut (name + " hat Hunger.");      // Philosopher is hungry
                 PhilosophersDesk.forks.acquire();               // Makes a claim for two forks.
                 right.get();                                    // taking right
                 sleep((int) (random.nextDouble()*1000));          // turn left (critical moment)
                 left.get();                                     // taking left
-                System.out.println(name + " hat zwei Gabeln. Er kann essen.");
+                Logger.printOut (name + " hat zwei Gabeln. Er kann essen.");
                 sleep((int) (random.nextDouble()*1000));         // holding two forks -> can eat now
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Logger.printOut (e.getMessage());
             }
             PhilosophersDesk.forks.release();                   // eating finished -> share the fork
             right.put();
