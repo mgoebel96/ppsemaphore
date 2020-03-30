@@ -5,8 +5,10 @@ import static java.lang.Thread.sleep;
 public class Philosopher implements Runnable {
 
     String name;
-    private Fork right, left;
+    Fork right, left;
+    String state;
     Random random = new Random();
+
 
     public Philosopher(String name, Fork right, Fork left){
         this.name = name;
@@ -17,19 +19,29 @@ public class Philosopher implements Runnable {
     public void run() {
         do {
             try {
-                Logger.printOut (name + " philosphiert.");    // Philosopher is thinking
-                sleep((int) (random.nextDouble()*10000));
-                Logger.printOut (name + " hat Hunger.");      // Philosopher is hungry
-                PhilosophersDesk.forks.acquire();               // Makes a claim for two forks.
-                right.get();                                    // taking right
-                sleep((int) (random.nextDouble()*1000));          // turn left (critical moment)
-                left.get();                                     // taking left
+                // Philosopher is thinking
+                Logger.printOut (name + " philosphiert.");
+                state = "wait";
+                sleep((int) (random.nextDouble()*1000));
+                Logger.printOut (name + " hat Hunger.");
+                PhilosophersDesk.report = name;
+                // Philosopher is hungry
+                state = "hungry";
+                PhilosophersDesk.hungryPhilosophers.acquire();
+                // taking right
+                right.get();
+                // turn left (critical moment)
+                sleep((int) (random.nextDouble()*1000));
+                // taking left
+                left.get();
+                state = "eating";
                 Logger.printOut (name + " hat zwei Gabeln. Er kann essen.");
-                sleep((int) (random.nextDouble()*1000));         // holding two forks -> can eat now
+                // holding two forks -> can eat now
+                sleep((int) (random.nextDouble()*1000));
             } catch (InterruptedException e) {
                 Logger.printOut (e.getMessage());
             }
-            PhilosophersDesk.forks.release();                   // eating finished -> share the fork
+            PhilosophersDesk.hungryPhilosophers.release();
             right.put();
             left.put();
         } while (true);
