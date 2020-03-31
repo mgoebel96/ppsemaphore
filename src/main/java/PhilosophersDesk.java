@@ -47,19 +47,25 @@ public class PhilosophersDesk {
             if (PhilosophersDesk.satedPhilosophers.availablePermits() != 0) return;
             System.out.println("Es haben alle Philosophen hunger!");
             try {
-                Logger.printOut(report + " legt seine Gabeln wieder auf den Tisch.");
                 Optional<Philosopher> lastPhiloso = Arrays.stream(philosophers).filter(p -> p.name.equals(report)).findFirst();
                 int idLastPhiloso = lastPhiloso.map(philosopher -> philosopher.id - 1).orElse(0);
+                Logger.printOut(report + " legt seine Gabeln wieder auf den Tisch.");
                 if(Arrays.asList(philosophers).get(idLastPhiloso).right.isTaken()){
                     Arrays.asList(philosophers).get(idLastPhiloso).right.put();
-                    while(PhilosophersDesk.satedPhilosophers.availablePermits() < 1 ){
-                        sleep(10);
+                    while (PhilosophersDesk.satedPhilosophers.availablePermits() == 1) {
+                        sleep(100);
+                    }
+                    while (Arrays.asList(philosophers).get(idLastPhiloso).right.getId() != -1) {
+                        sleep(100);
                     }
                     Arrays.asList(philosophers).get(idLastPhiloso).right.get();
                 } else {
                     Arrays.asList(philosophers).get(idLastPhiloso).left.put();
-                    while(PhilosophersDesk.satedPhilosophers.availablePermits() < 1 ){
-                        sleep(10);
+                    while (PhilosophersDesk.satedPhilosophers.availablePermits() == 1) {
+                        sleep(100);
+                    }
+                    while (Arrays.asList(philosophers).get(idLastPhiloso).left.getId() != -1) {
+                        sleep(100);
                     }
                     Arrays.asList(philosophers).get(idLastPhiloso).left.get();
                 }

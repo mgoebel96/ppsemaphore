@@ -30,10 +30,12 @@ public class Philosopher implements Runnable {
                 PhilosophersDesk.satedPhilosophers.acquire();
                 // taking right
                 right.get();
+                right.setId(id);
                 // turn left (critical moment)
                 sleep((int) (random.nextDouble()*1000));
                 // taking left
                 left.get();
+                left.setId(id);
                 Logger.printOut (name + " hat zwei Gabeln. Er kann essen.");
                 // holding two forks -> can eat now
                 sleep((int) (random.nextDouble()*1000));
@@ -41,6 +43,8 @@ public class Philosopher implements Runnable {
                 Logger.printOut (e.getMessage());
             }
             PhilosophersDesk.satedPhilosophers.release();
+            right.setId(-1);
+            left.setId(-1);
             right.put();
             left.put();
             i--;
