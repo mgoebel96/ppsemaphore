@@ -43,7 +43,18 @@ public class PhilosophersDesk {
         Thread herderThread = new Thread(herder);
         herderThread.start();
 
+        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+
         Runnable controller = () -> {
+            if(!platonThread.isAlive() && !herderThread.isAlive() && !aristotelesThread.isAlive() && !fichteThread.isAlive() && !schlegelThread.isAlive()){
+                platon.stop();
+                herder.stop();
+                platon.stop();
+                aristoteles.stop();
+                schlegel.stop();
+                executor.shutdown();
+                System.out.println("Der Tisch ist kaputt...");
+            }
             if (PhilosophersDesk.satedPhilosophers.availablePermits() != 0) return;
             System.out.println("Es haben alle Philosophen hunger!");
             try {
@@ -52,7 +63,7 @@ public class PhilosophersDesk {
                 Logger.printOut(report + " legt seine Gabeln wieder auf den Tisch.");
                 if(Arrays.asList(philosophers).get(idLastPhiloso).right.isTaken()){
                     Arrays.asList(philosophers).get(idLastPhiloso).right.put();
-                    while (PhilosophersDesk.satedPhilosophers.availablePermits() == 1) {
+                    while (PhilosophersDesk.satedPhilosophers.availablePermits() < 1) {
                         sleep(100);
                     }
                     while (Arrays.asList(philosophers).get(idLastPhiloso).right.getId() != -1) {
@@ -61,7 +72,7 @@ public class PhilosophersDesk {
                     Arrays.asList(philosophers).get(idLastPhiloso).right.get();
                 } else {
                     Arrays.asList(philosophers).get(idLastPhiloso).left.put();
-                    while (PhilosophersDesk.satedPhilosophers.availablePermits() == 1) {
+                    while (PhilosophersDesk.satedPhilosophers.availablePermits() < 1) {
                         sleep(100);
                     }
                     while (Arrays.asList(philosophers).get(idLastPhiloso).left.getId() != -1) {
@@ -73,7 +84,6 @@ public class PhilosophersDesk {
                 e.printStackTrace();
             }
         };
-        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
         executor.scheduleAtFixedRate(controller, 0, 4, TimeUnit.SECONDS);
         Thread task2Thread = new Thread(controller);
         task2Thread.start();

@@ -8,7 +8,7 @@ public class Philosopher implements Runnable {
     int id;
     Fork right, left;
     Random random = new Random();
-
+    private volatile boolean exit = false;
 
     public Philosopher(String name, int id, Fork right, Fork left){
         this.name = name;
@@ -18,8 +18,8 @@ public class Philosopher implements Runnable {
     }
 
     public void run() {
-        int i = 100;
-        while( i > 0 ) {
+        int i = 30;
+        while( i > 0 && !exit) {
             try {
                 // Philosopher is thinking
                 Logger.printOut (name + " philosphiert.");
@@ -42,12 +42,16 @@ public class Philosopher implements Runnable {
             } catch (InterruptedException e) {
                 Logger.printOut (e.getMessage());
             }
-            PhilosophersDesk.satedPhilosophers.release();
             right.setId(-1);
             left.setId(-1);
             right.put();
             left.put();
+            PhilosophersDesk.satedPhilosophers.release();
             i--;
         }
+    }
+
+    public void stop(){
+        exit = true;
     }
 }
