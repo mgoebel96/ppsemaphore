@@ -1,3 +1,10 @@
+package de.netempire;
+
+import de.netempire.classes.Fork;
+import de.netempire.classes.Philosopher;
+import de.netempire.logger.MyLogger;
+import de.netempire.logger.ResultLogger;
+
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -11,8 +18,8 @@ import static java.lang.Thread.sleep;
 
 public class PhilosophersDesk {
 
-    static Semaphore satedPhilosophers = new Semaphore(5, true);
-    static String report;
+    public static Semaphore satedPhilosophers = new Semaphore(5, true);
+    public static String report;
 
     public static void main(String[] args) {
         PhilosophersDesk.startProcess();

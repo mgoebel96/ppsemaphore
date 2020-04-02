@@ -1,13 +1,19 @@
+package de.netempire.classes;
+
+import de.netempire.PhilosophersDesk;
+import de.netempire.classes.Fork;
+import de.netempire.logger.MyLogger;
+
 import java.util.Random;
 
 import static java.lang.Thread.sleep;
 
 public class Philosopher implements Runnable {
 
-    String name;
-    int id;
-    Fork right, left;
-    Random random = new Random();
+    public String name;
+    public int id;
+    public Fork right, left;
+    public Random random = new Random();
     private volatile boolean exit = false;
 
     public Philosopher(String name, int id, Fork right, Fork left){

@@ -1,3 +1,5 @@
+package de.netempire.logger;
+
 import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
