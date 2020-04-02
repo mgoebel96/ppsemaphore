@@ -23,7 +23,7 @@ public class Philosopher implements Runnable {
             try {
                 // Philosopher is thinking
                 MyLogger.log(name + " philosphiert.");
-                sleep((int) (random.nextDouble()*1000));
+                sleep(1000);
                 MyLogger.log(name + " hat Hunger.");
                 PhilosophersDesk.report = name;
                 // Philosopher is hungry
@@ -32,13 +32,13 @@ public class Philosopher implements Runnable {
                 right.get();
                 right.setId(id);
                 // turn left (critical moment)
-                sleep((int) (random.nextDouble()*1000));
+                sleep(1000);
                 // taking left
                 left.get();
                 left.setId(id);
                 MyLogger.log(name + " hat zwei Gabeln. Er kann essen.");
                 // holding two forks -> can eat now
-                sleep((int) (random.nextDouble()*1000));
+                sleep(1000);
             } catch (InterruptedException e) {
                 MyLogger.log(e.getMessage());
             }
