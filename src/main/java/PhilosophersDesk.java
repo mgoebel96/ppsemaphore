@@ -1,4 +1,6 @@
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -13,10 +15,12 @@ public class PhilosophersDesk {
     static String report;
 
     public static void main(String[] args) {
-        startProcess();
+        PhilosophersDesk.startProcess();
     }
 
     private static void startProcess() {
+        Date start = Calendar.getInstance().getTime();
+
         Fork fork1 = new Fork();
         Fork fork2 = new Fork();
         Fork fork3 = new Fork();
@@ -53,14 +57,15 @@ public class PhilosophersDesk {
                 aristoteles.stop();
                 schlegel.stop();
                 executor.shutdown();
-                System.out.println("Der Tisch ist kaputt...");
+                System.out.println("Der Abend wird beendet.");
+                ResultLogger.log("Die Philosophen haben " + computeDuration(start, Calendar.getInstance().getTime()) + " Sekunden zusammen am Tisch gesessen.");
             }
             if (PhilosophersDesk.satedPhilosophers.availablePermits() != 0) return;
             System.out.println("Es haben alle Philosophen hunger!");
             try {
                 Optional<Philosopher> lastPhiloso = Arrays.stream(philosophers).filter(p -> p.name.equals(report)).findFirst();
                 int idLastPhiloso = lastPhiloso.map(philosopher -> philosopher.id - 1).orElse(0);
-                Logger.printOut(report + " legt seine Gabeln wieder auf den Tisch.");
+                MyLogger.log(report + " legt seine Gabeln wieder auf den Tisch.");
                 if(Arrays.asList(philosophers).get(idLastPhiloso).right.isTaken()){
                     Arrays.asList(philosophers).get(idLastPhiloso).right.put();
                     while (PhilosophersDesk.satedPhilosophers.availablePermits() < 1) {
@@ -88,5 +93,10 @@ public class PhilosophersDesk {
         Thread task2Thread = new Thread(controller);
         task2Thread.start();
 
+    }
+
+    public static int computeDuration(Date to, Date from) {
+        long difference = from.getTime() - to.getTime();
+        return (int) (difference/1000);
     }
 }

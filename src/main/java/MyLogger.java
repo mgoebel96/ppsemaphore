@@ -1,10 +1,10 @@
-public class Logger {
+public class MyLogger {
 
-    private Logger() {
+    private MyLogger() {
         throw new IllegalStateException("Logger class");
     }
 
-    public static synchronized void printOut(String printText){
+    public static synchronized void log(String printText){
         System.out.println(printText);
     }
 }

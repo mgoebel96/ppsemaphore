@@ -22,9 +22,9 @@ public class Philosopher implements Runnable {
         while( i > 0 && !exit) {
             try {
                 // Philosopher is thinking
-                Logger.printOut (name + " philosphiert.");
+                MyLogger.log(name + " philosphiert.");
                 sleep((int) (random.nextDouble()*1000));
-                Logger.printOut (name + " hat Hunger.");
+                MyLogger.log(name + " hat Hunger.");
                 PhilosophersDesk.report = name;
                 // Philosopher is hungry
                 PhilosophersDesk.satedPhilosophers.acquire();
@@ -36,11 +36,11 @@ public class Philosopher implements Runnable {
                 // taking left
                 left.get();
                 left.setId(id);
-                Logger.printOut (name + " hat zwei Gabeln. Er kann essen.");
+                MyLogger.log(name + " hat zwei Gabeln. Er kann essen.");
                 // holding two forks -> can eat now
                 sleep((int) (random.nextDouble()*1000));
             } catch (InterruptedException e) {
-                Logger.printOut (e.getMessage());
+                MyLogger.log(e.getMessage());
             }
             right.setId(-1);
             left.setId(-1);
