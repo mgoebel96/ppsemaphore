@@ -1,10 +1,7 @@
 package de.netempire.classes;
 
 import de.netempire.PhilosophersDesk;
-import de.netempire.classes.Fork;
 import de.netempire.logger.MyLogger;
-
-import java.util.Random;
 
 import static java.lang.Thread.sleep;
 
@@ -13,8 +10,9 @@ public class Philosopher implements Runnable {
     public String name;
     public int id;
     public Fork right, left;
-    public Random random = new Random();
     private volatile boolean exit = false;
+
+    public int eatingTime;
 
     public Philosopher(String name, int id, Fork right, Fork left){
         this.name = name;
@@ -38,13 +36,13 @@ public class Philosopher implements Runnable {
                 right.get();
                 right.setId(id);
                 // turn left (critical moment)
-                sleep(1000);
+                sleep(100);
                 // taking left
                 left.get();
                 left.setId(id);
                 MyLogger.log(name + " hat zwei Gabeln. Er kann essen.");
                 // holding two forks -> can eat now
-                sleep(1000);
+                sleep(eatingTime);
             } catch (InterruptedException e) {
                 MyLogger.log(e.getMessage());
             }
@@ -59,5 +57,9 @@ public class Philosopher implements Runnable {
 
     public void stop(){
         exit = true;
+    }
+
+    public void setEatingTime(int eatingTime) {
+        this.eatingTime = eatingTime;
     }
 }

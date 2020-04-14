@@ -35,10 +35,15 @@ public class PhilosophersDesk {
         Fork fork5 = new Fork();
 
         Philosopher platon = new Philosopher("Platon", 1, fork1, fork2);
+        platon.setEatingTime(750);
         Philosopher aristoteles = new Philosopher("Aristoteles",2, fork2, fork3);
+        aristoteles.setEatingTime(1000);
         Philosopher herder = new Philosopher("Herder", 3,fork3, fork4);
+        herder.setEatingTime(300);
         Philosopher fichte = new Philosopher("Fichte", 4,fork4, fork5);
+        fichte.setEatingTime(1500);
         Philosopher schlegel = new Philosopher("Schlegel",5, fork5, fork1);
+        schlegel.setEatingTime(500);
 
         Philosopher[] philosophers = new Philosopher[]{platon, aristoteles, herder, fichte, schlegel};
 
@@ -99,7 +104,6 @@ public class PhilosophersDesk {
         executor.scheduleAtFixedRate(controller, 0, 4, TimeUnit.SECONDS);
         Thread task2Thread = new Thread(controller);
         task2Thread.start();
-
     }
 
     public static int computeDuration(Date to, Date from) {
