@@ -7,16 +7,13 @@ import static java.lang.Thread.sleep;
 
 public class Philosopher implements Runnable {
 
-    public String name;
-    public int id;
-    public Fork right, left;
+    String name;
+    Fork right, left;
+    int eatingTime;
     private volatile boolean exit = false;
 
-    public int eatingTime;
-
-    public Philosopher(String name, int id, Fork right, Fork left){
+    public Philosopher(String name, Fork right, Fork left){
         this.name = name;
-        this.id = id;
         this.right = right;
         this.left = left;
     }
@@ -34,20 +31,16 @@ public class Philosopher implements Runnable {
                 PhilosophersDesk.satedPhilosophers.acquire();
                 // taking right
                 right.get();
-                right.setId(id);
                 // turn left (critical moment)
                 sleep(100);
                 // taking left
                 left.get();
-                left.setId(id);
                 MyLogger.log(name + " hat zwei Gabeln. Er kann essen.");
                 // holding two forks -> can eat now
                 sleep(eatingTime);
             } catch (InterruptedException e) {
                 MyLogger.log(e.getMessage());
             }
-            right.setId(-1);
-            left.setId(-1);
             right.put();
             left.put();
             PhilosophersDesk.satedPhilosophers.release();
